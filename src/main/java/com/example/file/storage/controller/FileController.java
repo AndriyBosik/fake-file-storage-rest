@@ -4,6 +4,7 @@ import com.example.file.storage.document.File;
 import com.example.file.storage.model.IdResponse;
 import com.example.file.storage.model.Response;
 import com.example.file.storage.model.ResponsePage;
+import com.example.file.storage.service.abstraction.IFilePaginatorService;
 import com.example.file.storage.service.abstraction.IFileService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,9 +20,11 @@ import java.util.List;
 public class FileController {
 
     private final IFileService fileService;
+    private final IFilePaginatorService filePaginatorService;
 
-    public FileController(IFileService fileService) {
+    public FileController(IFileService fileService, IFilePaginatorService filePaginatorService) {
         this.fileService = fileService;
+        this.filePaginatorService = filePaginatorService;
     }
 
     @PostMapping("/file")
@@ -68,8 +71,8 @@ public class FileController {
     ) {
         Pageable pageable = PageRequest.of(page, size);
         if (tags == null || tags.isEmpty()) {
-            return fileService.getByPage(pageable);
+            return filePaginatorService.getByPage(pageable);
         }
-        return fileService.getByPage(tags, pageable);
+        return filePaginatorService.getByPage(tags, pageable);
     }
 }

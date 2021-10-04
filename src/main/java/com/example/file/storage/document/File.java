@@ -10,9 +10,12 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -33,5 +36,5 @@ public class File {
     @Field(type = FieldType.Integer, name = "size")
     private Integer size;
 
-    private String[] tags = new String[0];
+    private List<String> tags = new ArrayList<>();
 }
