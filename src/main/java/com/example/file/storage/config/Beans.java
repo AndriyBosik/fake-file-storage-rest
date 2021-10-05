@@ -10,14 +10,14 @@ import java.util.Map;
 public class Beans {
 
     @Bean
-    public Map<String, String[]> getFileTags() {
-        Map<String, String[]> fileTags = new HashMap<>();
+    public Map<String, String[]> getTagToExtensions() {
+        Map<String, String[]> tagToExtensions = new HashMap<>();
 
-        fileTags.put("audio", new String[] {"mp3", "wav", "aac", "flac", "pcm", "aiff", "ogg", "wma", "alac"});
-        fileTags.put("document", new String[] {"doc", "docx", "html", "htm", "odt", "pdf", "xls", "xlsx", "ods", "ppt", "pptx", "txt"});
-        fileTags.put("video", new String[] {"mp4", "mov", "wmv", "avi", "avchd", "mkv", "webm", "mkv"});
-        fileTags.put("image", new String[] {"jpg", "png", "gif", "tiff", "psd", "pdf", "eps", "ai", "indd", "raw"});
+        tagToExtensions.put("audio", new String[] {"mp3", "wav", "aac", "flac", "pcm", "aiff", "ogg", "wma", "alac"});
+        tagToExtensions.put("document", new String[] {"doc", "docx", "html", "htm", "odt", "pdf", "xls", "xlsx", "ods", "ppt", "pptx", "txt"});
+        tagToExtensions.put("video", new String[] {"mp4", "mov", "wmv", "avi", "avchd", "mkv", "webm", "mkv"});
+        tagToExtensions.put("image", new String[] {"jpg", "png", "gif", "tiff", "psd", "pdf", "eps", "ai", "indd", "raw"});
 
-        return fileTags;
+        return tagToExtensions;
     }
 }

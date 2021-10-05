@@ -29,7 +29,7 @@ public class FileService implements IFileService {
 
     @Override
     public String save(File file) {
-        String fileTag = tagResolver.getTagByExtension(file.getName());
+        String fileTag = tagResolver.getTagByFilename(file.getName());
         if (fileTag != null) {
             file.getTags().add(fileTag);
         }

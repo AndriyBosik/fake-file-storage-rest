@@ -7,7 +7,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 class FileStorageApplicationTests {
 
     @Test
-    void contextLoads() {
-    }
-
+    public void contextLoads() {}
 }

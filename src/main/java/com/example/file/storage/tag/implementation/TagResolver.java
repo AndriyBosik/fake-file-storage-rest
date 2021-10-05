@@ -18,7 +18,7 @@ public class TagResolver implements ITagResolver {
     }
 
     @Override
-    public String getTagByExtension(String filename) {
+    public String getTagByFilename(String filename) {
         String fileExtension = getFileExtension(filename);
         for (Map.Entry<String, String[]> entry: tagToExtensions.entrySet()) {
             if (containsExtension(entry.getValue(), fileExtension)) {
