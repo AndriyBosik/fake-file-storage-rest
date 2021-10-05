@@ -4,44 +4,49 @@ import com.example.file.storage.model.ResponsePage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.SearchPage;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PageToResponsePageMapperTest {
+public class SearchPageToResponsePageMapperTest {
 
-    private static final int TOTAL_ELEMENTS = 23;
-    private static final String[] CONTENT = new String[] {
-        "element 1", "element 2", "element 3", "element 4", "element 5"
-    };
+    private static final int total = 5;
+    private static final String[] elements = new String[] {"elem 1", "elem 2", "elem 3"};
+    private static final SearchPageToResponsePageMapper<String> mapper = new SearchPageToResponsePageMapper<>();
 
-    private static Page<String> page;
-    private static PageToResponsePageMapper<String> mapper;
+    private static SearchPage<String> page;
 
     @BeforeAll
     public static void beforeAll() {
-        mapper = new PageToResponsePageMapper<>();
+        page = new SearchPage<>() {
+            @Override
+            public SearchHits<String> getSearchHits() {
+                return null;
+            }
 
-        page = new Page<>() {
             @Override
             public int getTotalPages() {
-                return 10;
+                return 0;
             }
 
             @Override
             public long getTotalElements() {
-                return TOTAL_ELEMENTS;
+                return total;
             }
 
             @Override
-            public <U> Page<U> map(Function<? super String, ? extends U> converter) {
+            public <U> Page<U> map(Function<? super SearchHit<String>, ? extends U> converter) {
                 return null;
             }
 
@@ -61,8 +66,14 @@ public class PageToResponsePageMapperTest {
             }
 
             @Override
-            public List<String> getContent() {
-                return Arrays.asList(CONTENT);
+            public List<SearchHit<String>> getContent() {
+                List<SearchHit<String>> hits = new ArrayList<>();
+                for (String element: elements) {
+                    SearchHit<String> hit = (SearchHit<String>) Mockito.mock(SearchHit.class);
+                    Mockito.when(hit.getContent()).thenReturn(element);
+                    hits.add(hit);
+                }
+                return hits;
             }
 
             @Override
@@ -106,7 +117,7 @@ public class PageToResponsePageMapperTest {
             }
 
             @Override
-            public Iterator<String> iterator() {
+            public Iterator<SearchHit<String>> iterator() {
                 return null;
             }
         };
@@ -116,9 +127,10 @@ public class PageToResponsePageMapperTest {
     public void shouldMap() {
         ResponsePage<String> responsePage = mapper.map(page);
 
-        assertEquals(TOTAL_ELEMENTS, responsePage.getTotal());
-        for (int i = 0; i < CONTENT.length; i++) {
-            assertEquals(CONTENT[i], responsePage.getPage().get(i));
+        assertEquals(total, responsePage.getTotal());
+        assertEquals(elements.length, responsePage.getPage().size());
+        for (int i = 0; i < elements.length; i++) {
+            assertEquals(elements[i], responsePage.getPage().get(i));
         }
     }
 }

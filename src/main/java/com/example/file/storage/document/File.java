@@ -29,7 +29,7 @@ public class File {
 
     @NotNull
     @NotEmpty
-    @Field(type = FieldType.Text, name = "name")
+    @Field(type = FieldType.Keyword, name = "name")
     private String name;
 
     @PositiveOrZero
