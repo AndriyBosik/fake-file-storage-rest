@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IFilePaginatorService {
 
-    ResponsePage<File> getByPage(Pageable pageable);
+    ResponsePage<File> getByPage(String name, Pageable pageable);
 
-    ResponsePage<File> getByPage(List<String> tags, Pageable pageable);
+    ResponsePage<File> getByPage(List<String> tags, String name, Pageable pageable);
 }

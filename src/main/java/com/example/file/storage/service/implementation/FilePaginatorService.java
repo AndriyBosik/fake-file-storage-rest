@@ -23,12 +23,12 @@ public class FilePaginatorService implements IFilePaginatorService {
     }
 
     @Override
-    public ResponsePage<File> getByPage(Pageable pageable) {
-        return mapper.map(fileRepository.findAll(pageable));
+    public ResponsePage<File> getByPage(String name, Pageable pageable) {
+        return mapper.map(fileRepository.findAllByNameContaining(name, pageable));
     }
 
     @Override
-    public ResponsePage<File> getByPage(List<String> tags, Pageable pageable) {
-        return mapper.map(fileRepository.findAllByTags(tags, pageable));
+    public ResponsePage<File> getByPage(List<String> tags, String name, Pageable pageable) {
+        return mapper.map(fileRepository.findAllByTagsAndNameContaining(tags, name, pageable));
     }
 }

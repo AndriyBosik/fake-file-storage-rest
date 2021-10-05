@@ -66,13 +66,14 @@ public class FileController {
     @GetMapping("/file")
     public ResponsePage<File> getPageFiles(
         @RequestParam(value = "tags", required = false) List<String> tags,
+        @RequestParam(value = "q", required = false, defaultValue = "") String name,
         @RequestParam(value = "page", required = false, defaultValue = "0") int page,
         @RequestParam(value = "size", required = false, defaultValue = "10") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
         if (tags == null || tags.isEmpty()) {
-            return filePaginatorService.getByPage(pageable);
+            return filePaginatorService.getByPage(name, pageable);
         }
-        return filePaginatorService.getByPage(tags, pageable);
+        return filePaginatorService.getByPage(tags, name, pageable);
     }
 }

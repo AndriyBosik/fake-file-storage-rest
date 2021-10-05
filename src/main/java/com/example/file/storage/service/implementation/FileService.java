@@ -1,7 +1,7 @@
 package com.example.file.storage.service.implementation;
 
 import com.example.file.storage.document.File;
-import com.example.file.storage.tag.abstraction.IFileTagHandler;
+import com.example.file.storage.tag.abstraction.ITagResolver;
 import com.example.file.storage.repository.abstraction.IExtendedFileRepository;
 import com.example.file.storage.repository.abstraction.IFileRepository;
 import com.example.file.storage.service.abstraction.IFileService;
@@ -15,21 +15,21 @@ public class FileService implements IFileService {
 
     private final IFileRepository fileRepository;
     private final IExtendedFileRepository extendedFileRepository;
-    private final IFileTagHandler fileTagHandler;
+    private final ITagResolver tagResolver;
 
     public FileService(
         IFileRepository fileRepository,
         IExtendedFileRepository extendedFileRepository,
-        IFileTagHandler fileTagHandler
+        ITagResolver tagResolver
     ) {
         this.fileRepository = fileRepository;
         this.extendedFileRepository = extendedFileRepository;
-        this.fileTagHandler = fileTagHandler;
+        this.tagResolver = tagResolver;
     }
 
     @Override
     public String save(File file) {
-        String fileTag = fileTagHandler.getTag(file.getName());
+        String fileTag = tagResolver.getTagByExtension(file.getName());
         if (fileTag != null) {
             file.getTags().add(fileTag);
         }

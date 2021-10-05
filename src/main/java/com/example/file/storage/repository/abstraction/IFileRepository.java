@@ -9,5 +9,7 @@ import java.util.List;
 
 public interface IFileRepository extends ElasticsearchRepository<File, String> {
 
-    Page<File> findAllByTags(List<String> tags, Pageable pageable);
+    Page<File> findAllByTagsAndNameContaining(List<String> tags, String name, Pageable pageable);
+
+    Page<File> findAllByNameContaining(String name, Pageable pageable);
 }
